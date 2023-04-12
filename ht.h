@@ -458,6 +458,7 @@ HASH_INDEX_T HashTable<K,V,Prober,Hash,KEqual>::probe(const KeyType& key) const
 
   HASH_INDEX_T loc = prober_.next(); 
   totalProbes_++;
+  elementN_++;
   while(Prober::npos != loc)
   {
     if(nullptr == table_[loc] ) {
