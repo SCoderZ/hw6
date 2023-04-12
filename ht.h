@@ -458,7 +458,7 @@ void HashTable<K,V,Prober,Hash,KEqual>::resize()
       if (table_[i] -> deleted) {
         delete table_[i];
         table_[i] = nullptr;
-        elementN_--;
+        // elementN_--;
         occupiedN_--;
       } else {
         a.push_back(table_[i]);
