@@ -106,7 +106,7 @@ public:
       return this->npos; 
     }
 
-    HASH_INDEX_T loc = (this->start_ + dhstep_) % this->m_;
+    HASH_INDEX_T loc = (this->start_ + this->numProbes_ * dhstep_) % this->m_;
     this->numProbes_++;
     return loc;
   }
