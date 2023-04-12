@@ -49,27 +49,24 @@ int main()
   cout << "size: " << ht.size() << endl;
   return 0; */
 //Reach the default alpha factor of .4 (5 items /11 items = .45) to force a resize
+pair<string, int> pair1("one", 1);
+    pair<string, int> pair2("two", 2);
+    pair<string, int> pair3("three", 3);
+    pair<string, int> nonExistantPair("cat", 25);
     HashTable<string, int, DoubleHashProber<string, std::hash<string>>, hash<string>, equal_to<string> > ht;
     set<pair<string, int>> items;
-    for(int i = 0; i < 5; i++) {
-        pair<string, int> newItem(to_string(i), i);
-        ht.insert(newItem);
-        items.insert(newItem);
-    }
-    // EXPECT_EQ(ht.table_.size(), 11);
-  cout << "size:" << ht.size() << endl;
-  ht.reportAll(cout);
-  cout << endl;
-    //add another item should resize
-    pair<string,int> newItem(to_string(5),5);
-    ht.insert(newItem);
-    items.insert(newItem);
-    // EXPECT_EQ(ht.table_.size(), 23);
-  cout << "size:" << ht.size() << endl;
-  ht.reportAll(cout);
-  cout << endl;
-    //check that all the items are still there
+    //Insert Items
+    ht.insert(pair1);
+    ht.insert(pair2);
+    ht.insert(pair3);
+    items.insert(pair1);
+    items.insert(pair2);
+    items.insert(pair3);
     // EXPECT_TRUE(verifyItems(ht, items));
+  ht.reportAll(cout);
+  cout << endl;
+    //Try removing non-existant items
+    ht.remove("cat");
   ht.reportAll(cout);
   cout << endl;
 }

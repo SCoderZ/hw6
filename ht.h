@@ -353,8 +353,10 @@ void HashTable<K,V,Prober,Hash,KEqual>::remove(const KeyType& key)
 {
   size_t loc = probe(key);
   if (loc != npos) {
-    table_[loc] -> deleted = true;
-    elementN_--;
+    if (table_[loc]) {
+      table_[loc] -> deleted = true;
+      elementN_--;
+    }
   }
 }
 
