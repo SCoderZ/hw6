@@ -356,7 +356,9 @@ void HashTable<K,V,Prober,Hash,KEqual>::remove(const KeyType& key)
   if (loc != npos) {
     if (table_[loc]) {
       table_[loc] -> deleted = true;
-      elementN_--;
+      if (elementN_ >= 1) {
+        elementN_--;
+      }
     }
   }
 }
