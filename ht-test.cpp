@@ -115,6 +115,7 @@ double loadfactor = 0.6;
     HashTable<int, int, LinearProber<int>, IntHash2, equal_to<int>> ht(loadfactor, LinearProber<int>(), IntHash2());
     set<pair<int, int>> items;
     for(size_t i = 0;i<sizemap.size()-1;i++){
+    cout << "#######" << endl;
         int min = (int)floor(sizemap[i]*loadfactor);
         for(int j = 0; j<=min/2;j++){
             pair<int,int> pair(j,j);
@@ -123,13 +124,19 @@ double loadfactor = 0.6;
             ht.remove(j);
             // EXPECT_TRUE(ht.find(j) == nullptr);
         }
+  ht.reportAll(cout);
+  cout << "Before" << ht.size() << endl;
         // EXPECT_EQ(ht.size(),0);
         //reinsert the same pair, loc should change
+    cout << "n:" << (min-(min/2)) << endl;
         for(int j = 0; j<(min-(min/2));j++){
             pair<int,int> pair(j,j);
             //insert again
             ht.insert(pair);
             items.insert(pair);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
             // EXPECT_EQ(ht.probe(j),(min/2)+1+j);
         }
         // EXPECT_EQ(ht.table_.size(),sizemap[i]);
