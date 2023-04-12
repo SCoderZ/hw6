@@ -429,23 +429,31 @@ typename HashTable<K,V,Prober,Hash,KEqual>::HashItem* HashTable<K,V,Prober,Hash,
 template<typename K, typename V, typename Prober, typename Hash, typename KEqual>
 void HashTable<K,V,Prober,Hash,KEqual>::resize()
 {
+  int tmpSize = elementN_;
   mIndex_++;
   if (mIndex_ > 27) {
     throw std::logic_error("no more size");
   }
 
   table_.resize(CAPACITIES[mIndex_]);
+  std::vector<HashItem*> a; // actual hash table
   for (size_t i = 0; i < CAPACITIES[mIndex_-1]; i++) {
     if (table_[i] != nullptr) {
       if (table_[i] -> deleted) {
         delete table_[i];
       } else {
-        size_t loc = probe(table_[i] -> item.first);
-        table_[loc] = table_[i];
+        a.push_back(table_[i]);
         table_[i] = nullptr;
       }
     }
   }
+
+  for (size_t i = 0; i < a.size(); i++) {
+    size_t loc = probe(a[i] -> item.first);
+    table_[loc] = a[i];
+  }
+  elementN_ = tmpSize;
+  
 }
 
 // Almost complete
