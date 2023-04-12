@@ -344,8 +344,14 @@ void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
   if (loc == npos) {
     throw std::logic_error("No room!");
   }
-  table_[loc] = new HashItem(p);
+
   elementN_++;
+  if (table_[loc]) {
+    if (kequal_(table_[loc] -> item.first, p.first)) {
+      elementN_--;
+    }
+  }
+  table_[loc] = new HashItem(p);
 }
 
 // To be completed
@@ -479,9 +485,6 @@ HASH_INDEX_T HashTable<K,V,Prober,Hash,KEqual>::probe(const KeyType& key) const
       // fill in the condition for this else if statement which should 
       // return 'loc' if the given key exists at this location
     else if(kequal_(table_[loc] -> item.first, key)) {
-      if (elementN_ >= 1) {
-        elementN_--;
-      }
       return loc;
     }
     loc = prober_.next();

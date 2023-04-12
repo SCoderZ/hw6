@@ -49,7 +49,7 @@ int main()
   cout << "size: " << ht.size() << endl;
   return 0; */
 //Reach the default alpha factor of .4 (5 items /11 items = .45) to force a resize
-pair<string, int> pair1("one", 1);
+/* pair<string, int> pair1("one", 1);
     pair<string, int> pair2("two", 2);
     pair<string, int> pair3("three", 3);
     pair<string, int> nonExistantPair("cat", 25);
@@ -66,7 +66,70 @@ pair<string, int> pair1("one", 1);
   ht.reportAll(cout);
   cout << endl;
     //Try removing non-existant items
+  cout << ht.size() << endl;
     ht.remove("cat");
   ht.reportAll(cout);
   cout << endl;
+  cout << ht.size() << endl; */
+/* HashTable<string, int, LinearProber<string>, hash<string>, equal_to<string> > ht;
+    set<pair<string, int>> items;
+    //Insert (one, 1)
+    pair<string, int> pair1("one", 1);
+    ht.insert(pair1);
+    items.insert(pair1);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Insert (two, 2)
+    pair<string, int> pair2("two", 2);
+    ht.insert(pair2);
+    items.insert(pair2);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Insert (three, 3)
+    pair<string, int> pair3("three", 3);
+    ht.insert(pair3);
+    items.insert(pair3);
+    // EXPECT_TRUE(verifyItems(ht, items));
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl; */
+pair<string, int> pair1("one", 1);
+    pair<string, int> pair2("two", 2);
+    pair<string, int> pair3("three", 3);
+    HashTable<string, int, DoubleHashProber<string, std::hash<string>>, hash<string>, equal_to<string> > ht;
+    set<pair<string, int>> items;
+    //Insert Items
+    ht.insert(pair1);
+    ht.insert(pair2);
+    ht.insert(pair3);
+    items.insert(pair1);
+    items.insert(pair2);
+    items.insert(pair3);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Remove Items
+    ht.remove(pair1.first);
+    items.erase(pair1);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    ht.remove(pair3.first);
+    items.erase(pair3);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    ht.remove(pair2.first);
+    items.erase(pair2);
+  ht.reportAll(cout);
+  cout << endl;
+  cout << ht.size() << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
 }
