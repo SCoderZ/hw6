@@ -334,8 +334,7 @@ size_t HashTable<K,V,Prober,Hash,KEqual>::size() const
 template<typename K, typename V, typename Prober, typename Hash, typename KEqual>
 void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
 {
-  elementN_++;
-  double alpha = elementN_ / CAPACITIES[mIndex_];
+  double alpha = (elementN_ + 1) / CAPACITIES[mIndex_];
   if (alpha >= alphaThreshold_) {
     resize();
   }
@@ -458,16 +457,15 @@ HASH_INDEX_T HashTable<K,V,Prober,Hash,KEqual>::probe(const KeyType& key) const
 
   HASH_INDEX_T loc = prober_.next(); 
   totalProbes_++;
-  elementN_++;
   while(Prober::npos != loc)
   {
     if(nullptr == table_[loc] ) {
+      elementN_++;
       return loc;
     }
       // fill in the condition for this else if statement which should 
       // return 'loc' if the given key exists at this location
     else if(kequal_(table_[loc] -> item.first, key)) {
-      elementN_--;
       return loc;
     }
     loc = prober_.next();
