@@ -435,7 +435,7 @@ void HashTable<K,V,Prober,Hash,KEqual>::resize()
   }
 
   table_.resize(CAPACITIES[mIndex_]);
-  for (size_t i = 0; i < CAPACITIES[mIndex_]; i++) {
+  for (size_t i = 0; i < CAPACITIES[mIndex_-1]; i++) {
     if (table_[i] != nullptr) {
       if (table_[i] -> deleted) {
         delete table_[i];
