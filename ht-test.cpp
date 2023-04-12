@@ -6,21 +6,22 @@
 #include <string>
 #include <sstream>
 #include <functional>
+#include <set>
 using namespace std;
 int main()
 {
-  DoubleHashProber<std::string, MyStringHash > dh;
+  /* DoubleHashProber<std::string, MyStringHash > dh;
   HashTable<
   std::string, 
   int, 
   DoubleHashProber<std::string, MyStringHash >, 
   std::hash<std::string>, 
-  std::equal_to<std::string> > ht(0.7, dh);
+  std::equal_to<std::string> > ht(0.7, dh); */
 
 
   // This is just arbitrary code. Change it to test whatever you like about your 
   // hash table implementation.
-  for(size_t i = 0; i < 10; i++){
+  /* for(size_t i = 0; i < 10; i++){
     std::stringstream ss;
     ss << "hi" << i;
     ht.reportAll(cout);
@@ -46,5 +47,28 @@ int main()
   }
   ht.insert({"hi7",17});
   cout << "size: " << ht.size() << endl;
-  return 0;
+  return 0; */
+ HashTable<string, int, LinearProber<string>, hash<string>, equal_to<string> > ht;
+    set<pair<string, int>> items;
+    //Insert (one, 1)
+    pair<string, int> pair1("one", 1);
+    ht.insert(pair1);
+    items.insert(pair1);
+  ht.reportAll(cout);
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Insert (two, 2)
+    pair<string, int> pair2("two", 2);
+    ht.insert(pair2);
+    items.insert(pair2);
+  ht.reportAll(cout);
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    pair<string, int> pair1dup("one", 3);
+    ht.insert(pair1dup);
+    items.erase(pair1);
+    items.insert(pair1dup);
+  ht.reportAll(cout);
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
 }

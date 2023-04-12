@@ -275,7 +275,7 @@ class HashTable
 
     // ADD MORE DATA MEMBERS HERE, AS NECESSARY
     double alphaThreshold_;
-    size_t elementN_;
+    mutable size_t elementN_;
 
   };
 
@@ -466,6 +466,7 @@ HASH_INDEX_T HashTable<K,V,Prober,Hash,KEqual>::probe(const KeyType& key) const
       // fill in the condition for this else if statement which should 
       // return 'loc' if the given key exists at this location
     else if(kequal_(table_[loc] -> item.first, key)) {
+      elementN_--;
       return loc;
     }
     loc = prober_.next();
