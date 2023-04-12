@@ -362,9 +362,9 @@ void HashTable<K,V,Prober,Hash,KEqual>::remove(const KeyType& key)
   if (loc != npos) {
     if (table_[loc]) {
       table_[loc] -> deleted = true;
-      if (elementN_ >= 1) {
+      /* if (elementN_ >= 1) {
         elementN_--;
-      }
+      } */
     }
   }
 }
@@ -452,6 +452,8 @@ void HashTable<K,V,Prober,Hash,KEqual>::resize()
     if (table_[i] != nullptr) {
       if (table_[i] -> deleted) {
         delete table_[i];
+        table_[i] = nullptr;
+        elementN_--;
       } else {
         a.push_back(table_[i]);
         table_[i] = nullptr;

@@ -134,9 +134,6 @@ double loadfactor = 0.6;
             //insert again
             ht.insert(pair);
             items.insert(pair);
-  ht.reportAll(cout);
-  cout << ht.size() << endl;
-  cout << endl;
             // EXPECT_EQ(ht.probe(j),(min/2)+1+j);
         }
         // EXPECT_EQ(ht.table_.size(),sizemap[i]);
@@ -145,6 +142,9 @@ double loadfactor = 0.6;
         pair<int,int> pair((min/2)+1,(min/2)+1);
         ht.insert(pair);
         items.insert(pair);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
         // EXPECT_EQ(ht.table_.size(),sizemap[i+1]);
         // EXPECT_EQ(ht.size(),items.size());
         //should be put into the correct spot, now that
