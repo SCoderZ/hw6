@@ -7,6 +7,16 @@
 #include <sstream>
 #include <functional>
 #include <set>
+
+
+struct IntHash2 {
+    // size_t size;
+    IntHash2() {}
+    HASH_INDEX_T operator()(const int& k) const
+    {
+        return k;
+    }
+};
 using namespace std;
 int main()
 {
@@ -97,39 +107,44 @@ int main()
   ht.reportAll(cout);
   cout << endl;
   cout << ht.size() << endl; */
-pair<string, int> pair1("one", 1);
-    pair<string, int> pair2("two", 2);
-    pair<string, int> pair3("three", 3);
-    HashTable<string, int, DoubleHashProber<string, std::hash<string>>, hash<string>, equal_to<string> > ht;
-    set<pair<string, int>> items;
-    //Insert Items
-    ht.insert(pair1);
-    ht.insert(pair2);
-    ht.insert(pair3);
-    items.insert(pair1);
-    items.insert(pair2);
-    items.insert(pair3);
-  ht.reportAll(cout);
-  cout << endl;
-  cout << ht.size() << endl;
-    // EXPECT_TRUE(verifyItems(ht, items));
-    //Remove Items
-    ht.remove(pair1.first);
-    items.erase(pair1);
-  ht.reportAll(cout);
-  cout << endl;
-  cout << ht.size() << endl;
-    // EXPECT_TRUE(verifyItems(ht, items));
-    ht.remove(pair3.first);
-    items.erase(pair3);
-  ht.reportAll(cout);
-  cout << endl;
-  cout << ht.size() << endl;
-    // EXPECT_TRUE(verifyItems(ht, items));
-    ht.remove(pair2.first);
-    items.erase(pair2);
-  ht.reportAll(cout);
-  cout << endl;
-  cout << ht.size() << endl;
+double loadfactor = 0.6;
+    const vector<int> sizemap =
+    {
+        11, 23, 47, 97, 197, 397, 797, 1597, 3203, 6421
+    };
+    HashTable<int, int, LinearProber<int>, IntHash2, equal_to<int>> ht(loadfactor, LinearProber<int>(), IntHash2());
+    set<pair<int, int>> items;
+    for(size_t i = 0;i<sizemap.size()-1;i++){
+        int min = (int)floor(sizemap[i]*loadfactor);
+        for(int j = 0; j<=min/2;j++){
+            pair<int,int> pair(j,j);
+            //insert then delete
+            ht.insert(pair);
+            ht.remove(j);
+            // EXPECT_TRUE(ht.find(j) == nullptr);
+        }
+        // EXPECT_EQ(ht.size(),0);
+        //reinsert the same pair, loc should change
+        for(int j = 0; j<(min-(min/2));j++){
+            pair<int,int> pair(j,j);
+            //insert again
+            ht.insert(pair);
+            items.insert(pair);
+            // EXPECT_EQ(ht.probe(j),(min/2)+1+j);
+        }
+        // EXPECT_EQ(ht.table_.size(),sizemap[i]);
+        // EXPECT_EQ(ht.size(),items.size());
+//add another should resize/rehash
+        pair<int,int> pair((min/2)+1,(min/2)+1);
+        ht.insert(pair);
+        items.insert(pair);
+        // EXPECT_EQ(ht.table_.size(),sizemap[i+1]);
+        // EXPECT_EQ(ht.size(),items.size());
+        //should be put into the correct spot, now that
+        //the "deleted" items are actually "deleted" when resizing
+        for(int j = 0; j<=(min/2+1);j++){
+            // EXPECT_EQ(ht.probe(j),j);
+        }
+    }
     // EXPECT_TRUE(verifyItems(ht, items));
 }
