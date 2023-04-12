@@ -72,5 +72,4 @@ int main()
     // EXPECT_TRUE(verifyItems(ht, items));
   ht.reportAll(cout);
   cout << endl;
-
 }
