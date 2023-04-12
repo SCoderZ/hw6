@@ -276,6 +276,7 @@ class HashTable
     // ADD MORE DATA MEMBERS HERE, AS NECESSARY
     double alphaThreshold_;
     mutable size_t elementN_;
+    mutable size_t occupiedN_;
 
   };
 
@@ -302,6 +303,7 @@ HashTable<K,V,Prober,Hash,KEqual>::HashTable(
   mIndex_ = 0;
   table_.resize(CAPACITIES[mIndex_]);
   elementN_ = 0;
+  occupiedN_ = 0;
   totalProbes_ = 0;
 }
 
@@ -334,7 +336,7 @@ size_t HashTable<K,V,Prober,Hash,KEqual>::size() const
 template<typename K, typename V, typename Prober, typename Hash, typename KEqual>
 void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
 {
-  double alpha = (double)(elementN_ ) / CAPACITIES[mIndex_];
+  double alpha = (double)(occupiedN_ ) / CAPACITIES[mIndex_];
   if (alpha >= alphaThreshold_) {
     resize();
   }
@@ -346,9 +348,11 @@ void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
   }
 
   elementN_++;
+  occupiedN_++;
   if (table_[loc]) {
     if (kequal_(table_[loc] -> item.first, p.first)) {
       elementN_--;
+      occupiedN_--;
     }
   }
   table_[loc] = new HashItem(p);
@@ -362,9 +366,9 @@ void HashTable<K,V,Prober,Hash,KEqual>::remove(const KeyType& key)
   if (loc != npos) {
     if (table_[loc]) {
       table_[loc] -> deleted = true;
-      /* if (elementN_ >= 1) {
+      if (elementN_ >= 1) {
         elementN_--;
-      } */
+      }
     }
   }
 }
@@ -440,7 +444,8 @@ typename HashTable<K,V,Prober,Hash,KEqual>::HashItem* HashTable<K,V,Prober,Hash,
 template<typename K, typename V, typename Prober, typename Hash, typename KEqual>
 void HashTable<K,V,Prober,Hash,KEqual>::resize()
 {
-  int tmpSize = elementN_;
+  /* int tmpSize = elementN_;
+  int tmpOccupied = occupiedN_; */
   mIndex_++;
   if (mIndex_ > 27) {
     throw std::logic_error("no more size");
@@ -454,6 +459,7 @@ void HashTable<K,V,Prober,Hash,KEqual>::resize()
         delete table_[i];
         table_[i] = nullptr;
         elementN_--;
+        occupiedN_--;
       } else {
         a.push_back(table_[i]);
         table_[i] = nullptr;
@@ -465,7 +471,8 @@ void HashTable<K,V,Prober,Hash,KEqual>::resize()
     size_t loc = probe(a[i] -> item.first);
     table_[loc] = a[i];
   }
-  elementN_ = tmpSize;
+  /* elementN_ = tmpSize;
+  occupiedN_ = tmpOccupied; */
   
 }
 

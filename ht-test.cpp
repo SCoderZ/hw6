@@ -108,7 +108,7 @@ int main()
   cout << endl;
   cout << ht.size() << endl; */
 double loadfactor = 0.6;
-    const vector<int> sizemap =
+    /* const vector<int> sizemap =
     {
         11, 23, 47, 97, 197, 397, 797, 1597, 3203, 6421
     };
@@ -153,5 +153,40 @@ double loadfactor = 0.6;
             // EXPECT_EQ(ht.probe(j),j);
         }
     }
+    // EXPECT_TRUE(verifyItems(ht, items)); */
+pair<string, int> pair1("one", 1);
+    pair<string, int> pair2("two", 2);
+    pair<string, int> pair3("three", 3);
+    HashTable<string, int, DoubleHashProber<string, std::hash<string>>, hash<string>, equal_to<string> > ht;
+    set<pair<string, int>> items;
+    //Insert Items
+    ht.insert(pair1);
+    ht.insert(pair2);
+    ht.insert(pair3);
+    items.insert(pair1);
+    items.insert(pair2);
+    items.insert(pair3);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Remove Items
+    ht.remove(pair1.first);
+    items.erase(pair1);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    ht.remove(pair3.first);
+    items.erase(pair3);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
+    // EXPECT_TRUE(verifyItems(ht, items));
+    ht.remove(pair2.first);
+    items.erase(pair2);
+  ht.reportAll(cout);
+  cout << ht.size() << endl;
+  cout << endl;
     // EXPECT_TRUE(verifyItems(ht, items));
 }
