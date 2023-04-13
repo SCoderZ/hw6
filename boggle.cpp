@@ -135,5 +135,5 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
     } else {
       return false;
     }
-  }
+  } else return true;
 }
