@@ -107,7 +107,7 @@ int main()
   ht.reportAll(cout);
   cout << endl;
   cout << ht.size() << endl; */
-double loadfactor = 0.6;
+/* double loadfactor = 0.6;
     const vector<int> sizemap =
     {
         11, 23, 47, 97, 197, 397, 797, 1597, 3203, 6421
@@ -152,6 +152,23 @@ double loadfactor = 0.6;
         for(int j = 0; j<=(min/2+1);j++){
             // EXPECT_EQ(ht.probe(j),j);
         }
-    }
+    } */
+HashTable<string, int, LinearProber<string>, hash<string>, equal_to<string> > ht;
+    set<pair<string, int>> items;
+    //Insert (one, 1)
+    pair<string, int> pair1("one", 1);
+    ht.insert(pair1);
+    items.insert(pair1);
+    // EXPECT_TRUE(verifyItems(ht, items));
+    //Insert (two, 2)
+    pair<string, int> pair2("two", 2);
+    ht.insert(pair2);
+    items.insert(pair2);
+    // EXPECT_TRUE(verifyItems(ht, items));
+    pair<string, int> pair1dup("one", 3);
+    ht.insert(pair1dup);
+    items.erase(pair1);
+    items.insert(pair1dup);
+    // EXPECT_TRUE(verifyItems(ht, items));
     // EXPECT_TRUE(verifyItems(ht, items));
 }

@@ -314,6 +314,7 @@ HashTable<K,V,Prober,Hash,KEqual>::~HashTable()
   for (size_t i = 0; i < CAPACITIES[mIndex_]; i++) {
     if (table_[i] != nullptr) {
       delete table_[i];
+      table_[i] = nullptr;
     }
   }
 }
@@ -351,6 +352,7 @@ void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
   occupiedN_++;
   if (table_[loc]) {
     if (kequal_(table_[loc] -> item.first, p.first)) {
+      delete table_[loc];
       elementN_--;
       occupiedN_--;
     }
