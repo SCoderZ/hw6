@@ -94,6 +94,46 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
-//add your solution here!
+  // std::set<std::string>::iterator itr;
+  std::set<std::string>::iterator itr2;
+  // itr = prefix.find(word + board[r][c]);
+  itr2 = dict.find(word + board[r][c]);
 
+  if (dr == 0 && dc == 1) {
+    if (c == board.size() - 1) {
+      if (itr2 != dict.end()) {
+        result.insert(word + board[r][c]);
+        return true;
+      } else {
+        return false;
+      }
+    } 
+  } else if (dr == 1 && dc == 0) {
+    if (r == board.size() - 1) {
+      if (itr2 != dict.end()) {
+        result.insert(word + board[r][c]);
+        return true;
+      } else {
+        return false;
+      }
+    } 
+  } else {
+    if (r == board.size() - 1 || c == board.size() - 1) {
+      if (itr2 != dict.end()) {
+        result.insert(word + board[r][c]);
+        return true;
+      } else {
+        return false;
+      }
+    } 
+  }
+
+  if (!boggleHelper(dict, prefix, board, word + board[r][c], result, r+dr, c+dc, dr, dc)) {
+    if (itr2 != dict.end()) {
+      result.insert(word + board[r][c]);
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
